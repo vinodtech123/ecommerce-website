@@ -13,28 +13,47 @@
  <link rel="stylesheet" href="{{asset('assets/css/new.css')}}">
  <!-- iCheck -->
  <link rel="stylesheet" href="https://adminlte.io/themes/AdminLTE/plugins/iCheck/square/blue.css">
-  
+ 
+ {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css"> --}}
+
 @yield('styles')
 
 </head>
 <body class="hold-transition login-page">
 
     <div class="login-box">
+      @if ($message = Session::get('msg'))
+      <div class="alert alert-danger alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>	
+              <strong>{{ $message }}</strong>
+      </div>
+      @endif
         <div class="login-logo">
-          <a href="../../index2.html"><b>Admin &nbsp; </b>Login Pannel</a>
+          <a href="../../index2.html"><b>{{  Config::get('constants.site_name')  }} &nbsp;</b><b>Admin &nbsp; </b>Login Pannel</a>
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
           <p class="login-box-msg">Sign in to start your session</p>
       
-          <form action="../../index2.html" method="post">
+          <form action="{{route('admin.verify')}}" method="post">
+            @csrf
             <div class="form-group has-feedback">
-              <input type="email" class="form-control" placeholder="Email">
+              <input type="email" name="email" class="form-control" placeholder="Email">
               <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+              @error('email')
+              <div class="text-danger">
+                {{ $message }}
+              </div>
+              @enderror
             </div>
             <div class="form-group has-feedback">
-              <input type="password" class="form-control" placeholder="Password">
+              <input type="password" name="password" class="form-control" placeholder="Password">
               <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+              @error('password')
+              <div class="text-danger">
+                {{ $message }}
+              </div>
+               @enderror
             </div>
             <div class="row">
               <div class="col-xs-8">
@@ -64,6 +83,9 @@
       <!-- /.login-box -->
 
       <script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+
+     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script> --}}
+
      
       <!-- iCheck -->
       <script src="https://adminlte.io/themes/AdminLTE/plugins/iCheck/icheck.min.js"></script>
